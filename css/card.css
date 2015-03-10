@@ -1,0 +1,195 @@
+/***********************************************************  
+ *  Name: Gregory James Caldwell Jr.                       *
+ *  Email: Gregory_Caldwell@student.uml.edu                *
+ *  File: Card.html                                        *
+ *  Starting Date: Thursday February 12th, 2014            *
+ *  Last Date: Thursday February 12th, 2014                *
+ *  Course: 91.462 - GUI Programming II                    *
+ ***********************************************************/
+
+/* http://www.w3schools.com/tags/ref_color_tryit.asp?color */
+ 
+/* Order to CSS */
+/* Margin */ 
+/* Border */ 
+/* Background Colour */ 
+/* Padding */ 
+/* Height × Width */
+/* Other */
+
+/* Order to Direction */
+/* Left */ 
+/* Right */ 
+/* Top */
+/* Bottom */
+
+ /*
+ *  +-------------------+
+ *  |                   |
+ *  |      margin       |
+ *  |                   |
+ *  |  +---border----+  |
+ *  |  |             |  |
+ *  |  | (background |  |
+ *  |  |   colour)   |  |
+ *  |  |             |  |
+ *  |  |   padding   |  |
+ *  |  |             |  |
+ *  |  |  +-------+  |  |
+ *  |  |  | height|  |  |
+ *  |  |  |   ×   |  |  |
+ *  |  |  | width |  |  |
+ *  |  |  +-------+  |  |
+ *  |  +-------------+  |
+ *  +-------------------+
+ */
+
+/* Central Purple Color Scheme http://www.colorcombos.com/color-schemes/171/ColorCombo171.html */ 
+ 
+body {
+  /* Background Colour */
+  /* Main_CSS.css Contains the background color */
+}
+
+#backgroundBottom{
+  /* Background Colour */
+  background-color: whitesmoke;
+  /* Height × Width */
+  min-width: 100%;
+  min-height: 10%;
+}
+
+#mainContainer{
+  /* Margin */ 
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;  
+  margin-bottom: 10px;
+  /* Height × Width */
+  min-width: 1200px;
+  min-height: 600px;
+  max-width: 1400px;
+  max-height: 800px;
+}
+
+#cardName {
+  /* Text */
+  font-family: open_sanssemibold, Ariel, sans-serif;
+  font-size: 50px;
+  color: #732C7B;
+}
+
+#cardImage {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 20px;   
+  /* Background Colour */
+  background-color: red;
+  /* Height × Width */
+  width: 220px;
+  height: 310px;
+  /* Other */ 
+  float: left;
+}	
+
+#cardData {
+  /* Text */
+  font-family: open_sanssemibold, Ariel, sans-serif;
+  font-size: 16px;
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 20px;   
+  /* Background Colour */
+  background-color: #732C7B;
+  /* Height × Width */
+  width: 400px;
+  height: 550px;
+  /* Other */ 
+  float: left;
+}
+
+#cardData h2 {
+  color: white;
+   margin: 5px;   
+}
+
+#cardPercentages {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 20px; 
+  /* Background Colour */
+  background-color: #421C52;
+  /* Height × Width */
+  width: 300px;
+  height: 550px;
+  /* Other */ 
+  float: left;
+}
+
+#standardPercentage {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px; 
+  /* Background Colour */
+  background-color: white;
+  /* Height × Width */
+  width: 250px;
+  height: 100px;
+  /* Other */ 
+  float: left;
+}
+
+#modernPercentage {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px; 
+  /* Background Colour */
+  background-color: white;
+  /* Height × Width */
+  width: 250px;
+  height: 100px;
+  /* Other */ 
+  float: left;
+}
+
+#legacyPercentage {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px; 
+  /* Background Colour */
+  background-color: white;
+  /* Height × Width */
+  width: 250px;
+  height: 100px;
+  /* Other */ 
+  float: left;
+}
+
+#vintagePercentage {
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 25px; 
+  /* Background Colour */
+  background-color: white;
+  /* Height × Width */
+  width: 250px;
+  height: 100px;
+  /* Other */ 
+  float: left;
+}
+
+#cardDataGraphic {
+
+  /* Background Colour */
+  background-color: #BDAEC6;
+  /* Height × Width */
+  width: 300px;
+  height: 300px; 
+}
