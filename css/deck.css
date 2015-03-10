@@ -1,0 +1,53 @@
+/*
+File: deck.css
+91.462 Project: Mastering Magic
+Michael Mammosser, Computer Science Major @ UMass Lowell
+Contact: michael_mammosser@student.uml.edu
+Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
+Updated on March 10, 2015.
+
+A simple html/php page that displays mtg decks.
+*/
+
+.deck {
+  /* Text */
+  font-family: open_sanssemibold, Ariel, sans-serif;
+  font-size: 16px;
+  
+  /* Margin */ 
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 20px;
+  margin: 0 auto ;
+  
+  /* Background Colour */
+  background-color: #732C7B;
+  
+  /* Height × Width */
+  width: 50%;
+}
+
+.cards {
+  float: left;
+  
+  /* Text */
+  font-family: open_sanssemibold, Ariel, sans-serif;
+  font-size: 16px;
+  
+  /* Background Colour */
+  background-color: #732C7B;
+  
+}
+
+.cards ul {
+  list-style-type: none;
+}
+
+.cards  li {
+  /* Text */
+  font-weight: bold;
+}
+
+.card_image {
+  float: right;
+}
