@@ -49,6 +49,8 @@ A simple html/php page that displays mtg decks.
         <!-- This search box allows the user to search for specific people in the table. -->
         <input type="search" name="search" id="search" placeholder="Enter a card..." >
       </form>
+      
+      <!-- Navigation -->
       <div id="navbar"> 
         <ul class="fancyNav">
           <li id="Home">
@@ -66,10 +68,11 @@ A simple html/php page that displays mtg decks.
         </ul>
       </div> 
     </header>
-
+    <body>
     <?php
       $manaString = "";
-
+      
+      # Create a string by concatenating the passed variables.
       if(isset($_GET['black'])) {
         $manaString .= $_GET['black']  . ", ";
       }
@@ -83,7 +86,7 @@ A simple html/php page that displays mtg decks.
       }
 
       if(isset($_GET['red'])) {
-        $manaString .= $_GET['Red'] . ", ";
+        $manaString .= $_GET['red'] . ", ";
       }
 
       if(isset($_GET['white'])) {
@@ -118,9 +121,7 @@ A simple html/php page that displays mtg decks.
         die( '<p>Unable to connect to database [' . $db->connect_error . ']</p>\n' ) ;
       }
 
-      /*
-       * Fetch the row count from `mtg_cards`.
-       */
+      # Fetch all decks that have a specific set of colors.
       $sql = "SELECT * FROM `mtg_deck_map` WHERE `colors` = '" . $manaString . "';" ;
       if ( ! $result = $db->query( $sql ) ) {
         die( '<p>There was an error running card query [' . $db->error . ']</p>\n' ) ;
@@ -134,13 +135,18 @@ A simple html/php page that displays mtg decks.
          }
          $count += 1 ;
       }
-
+      
+      # For each deck retrieve card names and counts.
       foreach ($decks as &$deck) {
         $sql = "Select * from `mtg_deck` where `deck` = '" . $deck . "';" ;
-        $result = $db->query( $sql ) ;			
+        $result = $db->query( $sql ) ;
+        
+        # Create a division containing the deck name and a list of cards.
         echo "<div class='deck'>" ;
-        echo "<h2>" . $deck . "</h2>\n" ;
+        echo "<div id='title'><h2>" . $deck . "</h2></div>\n" ;
         echo "<div class='cards'><ul>\n" ;
+        
+        # Update the list of cards with names and counts.
         while ($deck_info = $result->fetch_assoc()) {
           echo "<li>" . $deck_info['count'] . " - " ; 
           echo '<a class="card_link" href="cards.php?search=' ;
@@ -148,12 +154,16 @@ A simple html/php page that displays mtg decks.
           echo '"' ;
           echo ">" . $deck_info['card'] . "</a></li>\n" ;
         }
+        
+        # Insert a default card image next to the list of cards.
         echo "</ul></div>\n" ;
         echo "<div class='card_image'><img src='images/mtg_card_hq.jpg' height=310 width=220></div>" ;
         echo "</div>\n" ;
+        break ;
       }
     ?>
     <script>
+      // When a card name is hovered over change the default image to the the card image.
       $('.card_link').hover( function () {
         console.log() ;
         $image_str = "<img src=" + '"http://mtgimage.com/card/' + $(this).text() + '.jpg"' + " height=310 width=220>" ;

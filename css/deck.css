@@ -6,7 +6,7 @@ Contact: michael_mammosser@student.uml.edu
 Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
 Updated on March 10, 2015.
 
-A simple html/php page that displays mtg decks.
+Simple css to position the divisions on the deck page.
 */
 
 .deck {
@@ -27,19 +27,20 @@ A simple html/php page that displays mtg decks.
   width: 50%;
 }
 
-.cards {
-  float: left;
-  
+.cards { 
   /* Text */
   font-family: open_sanssemibold, Ariel, sans-serif;
   font-size: 16px;
   
+  /* Location */
+  float: left;
+
   /* Background Colour */
   background-color: #732C7B;
-  
 }
 
 .cards ul {
+  /* List property */
   list-style-type: none;
 }
 
@@ -49,5 +50,6 @@ A simple html/php page that displays mtg decks.
 }
 
 .card_image {
+  /* Location */
   float: right;
 }
