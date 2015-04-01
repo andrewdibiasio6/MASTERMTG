@@ -1,2 +1,0 @@
-# MASTERMTG
-GUIII Project

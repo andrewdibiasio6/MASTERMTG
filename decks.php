@@ -8,167 +8,155 @@ File: deck.php
 Michael Mammosser, Computer Science Major @ UMass Lowell
 Contact: michael_mammosser@student.uml.edu
 Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
-Updated on March 10, 2015.
+Updated on March 25, 2015.
 
-A simple html/php page that displays mtg decks.
+A simple html/php page that displays Magic the gathering decks.
 -->
-    <title>MTG_CARDS Update</title>
+    <title>Decks</title>
     
     <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
-    <!-- Bootstrap styles -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/styles.css">
-
-    <!-- Card.html Stylesheet -->
-    <link rel="stylesheet" href="css/deck.css">
-
-    <!-- Central Navigation Bar Stylesheet -->
-    <link rel="stylesheet" href="css/nav.css">
-
-    <!-- Central Search Bar Stylesheet -->
-    <link rel="stylesheet" href="css/search.css">
-
-    <!-- Changes the small icon on the page to the image referenced. -->
-    <link rel="icon" href="images/mtg_card.jpg">
-  </head>
-  <body ng-controller="MainCtrl">
-    <!-- Header -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/deck.css">    
+  </head> 
+  <body>
     <header>
-
-      <!-- Header Logo Image -->
-      <img id="headerImage" src="images/mtg_card_hq.jpg" alt="Back of a MTG Card" >
-
-      <!-- Header Title -->
-      <h3 id="headerTitle"> Mastering MTG </h3> 
-
-      <form action="" method="get" id="searchBar" >
-        <!-- This search box allows the user to search for specific people in the table. -->
-        <input type="search" name="search" id="search" placeholder="Enter a card..." >
-      </form>
-      
-      <!-- Navigation -->
-      <div id="navbar"> 
-        <ul class="fancyNav">
-          <li id="Home">
-            <p><a href="./index.html"> Home </a></p>
-          </li>
-          <li id="Decks">
-            <p><a href="./decks.php"> Decks </a></p>
-          </li>
-          <li id="Card_Search">
-            <p><a href="./cards.php"> Card Search </a></p>
-          </li>
-          <li id="Contact">
-            <p><a href="#"> Contact </a></p>
-          </li>
-        </ul>
-      </div> 
+      <img class="logo" src="images/logo.jpg" alt="Mastering Magic">
+      <ul class='menu'>
+        <li>Home</li>
+        <li>Cards</li>
+        <li>Decks</li>
+      </ul>
     </header>
-    <body>
+
+    <div id="content">
     <?php
-      $manaString = "";
-      
+      $mana_string = "";
+
       # Create a string by concatenating the passed variables.
       if(isset($_GET['black'])) {
-        $manaString .= $_GET['black']  . ", ";
+        $manaString .= "black, ";
       }
-
       if(isset($_GET['blue'])) {
-        $manaString .= $_GET['blue']  . ", ";
+        $manaString .= "blue, ";
       }
-
       if(isset($_GET['green'])) {
-        $manaString .= $_GET['green']  . ", ";
+        $manaString .= "green, ";
       }
-
       if(isset($_GET['red'])) {
-        $manaString .= $_GET['red'] . ", ";
+        $manaString .= "red, ";
       }
-
       if(isset($_GET['white'])) {
-        $manaString .= $_GET['white']  . ", ";
+        $manaString .= "white, ";
       }
-
-      $manaString = substr ( $manaString , 0, -2 );
+      $manaString = substr($manaString, 0, -2);
 
       # Database credentials.
-      $username = "mmammoss" ;
-      $password = "mm5119" ;
+      $username = "mmammoss";
+      $password = "mm5119";
 
-      /*
-       * Error report configuration.
-       * Code from https://www.teaching.cs.uml.edu/~heines/91.462/91.462-2014-15s/462-lecs/code/showphpsource.php?file=connect-v4i.php&numberlines
-       */
-      error_reporting( E_STRICT ) ;
-      function terminate_missing_variabless( $errno, $errstr, $errfile, $errline ) {
-        if (( $errno == E_NOTICE ) and ( strstr( $errstr, "Undefined variable" ) ) ) {
-          die ( "$errstr in $errfile line $errline" ) ;
-        }
-        return false;
-      }
-      $old_error_handler = set_error_handler( "terminate_missing_variables" ) ;
+      # Connection code from:
+      # http://php.net/manual/en/mysqli-stmt.bind-param.php
+      $mysqli = new mysqli("localhost", $username, $password, $username);
 
-      /*
-       * Create connection with mysqli to the weblab mysql server.
-       * Code from https://www.teaching.cs.uml.edu/~heines/91.462/91.462-2014-15s/462-lecs/code/showphpsource.php?file=connect-v4i.php&numberlines
-       */
-      $db = new mysqli("localhost", $username, $password, $username) ;
-      if ( $db->connect_errno > 0 ) {
-        die( '<p>Unable to connect to database [' . $db->connect_error . ']</p>\n' ) ;
+      # Check connection
+      if (mysqli_connect_errno()) {
+        printf("Connect failed: %s\n", mysqli_connect_error());
+        exit();
       }
 
-      # Fetch all decks that have a specific set of colors.
-      $sql = "SELECT * FROM `mtg_deck_map` WHERE `colors` = '" . $manaString . "';" ;
-      if ( ! $result = $db->query( $sql ) ) {
-        die( '<p>There was an error running card query [' . $db->error . ']</p>\n' ) ;
-      }
-      $decks = array() ;
-      $count = 1 ;
-      while ($deck_info = $result->fetch_assoc()) {
-         array_push($decks, $deck_info['deck']) ;
-         if ($count > 5) {
-           break ;
-         }
-         $count += 1 ;
-      }
+      # Prepare and execute statement with bind variables.
+      $stmt = $mysqli->prepare("SELECT deck, format, colors FROM `mtg_deck_map` WHERE `colors` = ?");
+      $stmt->bind_param('s', $manaString);
+      $stmt->execute();
+      $stmt->bind_result($deck, $format, $colors);
       
+      # Initialize arrays to hold deck info.
+      $decks_array = array();
+      $formats_array = array();
+      $colors_array = array();
+
+      # Fetch results and store them in arrays.
+      while($stmt->fetch()) {
+        array_push($decks_array, $deck);
+        array_push($formats_array, $format);
+        array_push($colors_array, $colors);
+      }
+
+      # Close statement to prevent issues with following queries.
+      $stmt->close();
+ 
+      # Create a list of for the deck select form.
+      $deck_list = "";
+      $count = 1;
+      foreach ($decks_array as &$deck_select) {
+        if (strlen($deck_select) > 25) {
+          $select_str = strtolower(substr($deck_select, 0, 25));
+        }
+        $deck_list .= "              <option value='" . $count . "' label='" . $select_str . "'>" . $deck_select . "</option>\n";
+        $count += 1;
+      }
+
+      # Create the .deck divisions nav bar and header.
+      echo "      <div class='deck'>\n";
+      echo "        <nav id='deck_nav'>\n";
+      echo "          <div id='nav_header'>\n";
+      echo "            <h3 id='deck_name'></h3>\n";
+      echo "          </div> <!-- .navbar-header -->\n";
+      echo "          <div id='deck_select'>\n";
+      echo "            <select id='deck_dropdown' class='form-control'>\n";
+      echo $deck_list;
+      echo "            </select>\n";
+      echo "          </div> <!-- #deck_select -->\n";
+      echo "        </nav> <!-- #deck_nav -->\n";
+      echo "        <div id='deck_info'>\n";
+
       # For each deck retrieve card names and counts.
-      foreach ($decks as &$deck) {
-        $sql = "Select * from `mtg_deck` where `deck` = '" . $deck . "';" ;
-        $result = $db->query( $sql ) ;
-        
-        # Create a division containing the deck name and a list of cards.
-        echo "<div class='deck'>" ;
-        echo "<div id='title'><h2>" . $deck . "</h2></div>\n" ;
-        echo "<div class='cards'><ul>\n" ;
-        
+      $count = 1;
+      foreach ($decks_array as &$deck) {
+        # Query deck database for card and counts.
+        $sql = "Select * from `mtg_deck` where `deck` = '" . $deck . "';";
+        $result = $mysqli->query( $sql );
+
+        # Create a separate division for each deck.
+        echo "          <div id='" . $count . "' class='card_list split_list'>\n";
+        echo "            <ul>\n";
+
         # Update the list of cards with names and counts.
         while ($deck_info = $result->fetch_assoc()) {
-          echo "<li>" . $deck_info['count'] . " - " ; 
-          echo '<a class="card_link" href="cards.php?search=' ;
+          echo "              <li>" . $deck_info['count'] . " - "; 
+          echo '<a class="card_link" href="cards.php?search=';
           echo $deck_info['card'] ;
-          echo '"' ;
-          echo ">" . $deck_info['card'] . "</a></li>\n" ;
+          echo '"';
+          echo ">" . $deck_info['card'] . "</a></li>\n";
         }
-        
+
         # Insert a default card image next to the list of cards.
-        echo "</ul></div>\n" ;
-        echo "<div class='card_image'><img src='images/mtg_card_hq.jpg' height=310 width=220></div>" ;
-        echo "</div>\n" ;
-        break ;
+        echo "            </ul>\n";
+        echo "          </div> <!-- #card_list -->\n";
+        $count += 1;
       }
+
+      # Close sql connection so that the server does not get overloaded.
+      $mysqli->close();
     ?>
-    <script>
-      // When a card name is hovered over change the default image to the the card image.
-      $('.card_link').hover( function () {
-        console.log() ;
-        $image_str = "<img src=" + '"http://mtgimage.com/card/' + $(this).text() + '.jpg"' + " height=310 width=220>" ;
-        $('.card_image').html($image_str) ; 
-      });
-    </script>
+          <!-- Retrieve format and color information from php -->
+          <script>
+              $formats = <?php echo json_encode($formats_array); ?>;
+              $colors = <?php echo json_encode($colors_array); ?>;
+          </script>
+
+          <!-- Division to hold the card image -->
+          <div id="card_img">
+            <img src='images/mtg_card_hq.jpg' height=310 width=220>
+          </div> <!-- #card_img -->
+        </div> <!-- #deck_info -->
+        <div id='deck_format'></div>
+      </div> <!-- #deck -->
+    </div> <!-- #content -->
+    <script src="js/deck.js"></script>
   </body>
 </html>
+

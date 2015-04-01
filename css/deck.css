@@ -1,55 +1,152 @@
-/*
-File: deck.css
-91.462 Project: Mastering Magic
-Michael Mammosser, Computer Science Major @ UMass Lowell
-Contact: michael_mammosser@student.uml.edu
-Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
-Updated on March 10, 2015.
-
-Simple css to position the divisions on the deck page.
-*/
-
-.deck {
-  /* Text */
-  font-family: open_sanssemibold, Ariel, sans-serif;
-  font-size: 16px;
-  
-  /* Margin */ 
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 20px;
-  margin: 0 auto ;
-  
-  /* Background Colour */
-  background-color: #732C7B;
-  
-  /* Height × Width */
-  width: 50%;
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
-.cards { 
-  /* Text */
-  font-family: open_sanssemibold, Ariel, sans-serif;
-  font-size: 16px;
-  
-  /* Location */
+body {
+  margin: 0;
+  color: #fff;
+  background-color: rgba(41, 64, 86, 1);
+}
+
+header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+header img.logo {
+  height: 48px;
+  width: 35px;
+}
+
+header .menu {
+  position: relative;
+  left: 0px;
+}
+
+header .menu > li {
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-family: 'Titillium Web', arial, helvetica, sans-serif;
+  font-weight: 100;
+  display: inline-block;
+  padding: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+header .menu > li:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+#content {
+  padding-top: 25px;
+}
+
+.deck{
+  margin: 0 auto;
+  max-width: 940px;
+}
+
+.deck nav {
+  width: 100%; 
+  background-color: rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+#nav_header {
+  style='float: left;
+  padding-right: 15px;
+}
+
+select {
+  text-transform: none;
+  line-height: 30px;
+  height: 30px;
+}
+
+select textarea {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.form-control {
+  position: relative;
+  z-index: 2;
   float: left;
-
-  /* Background Colour */
-  background-color: #732C7B;
+  width: 100%;
+  margin-bottom: 0;
 }
 
-.cards ul {
-  /* List property */
+#card_img {
+  margin: 25px;
+  display: none;
+}
+
+@media screen and (min-width: 725px){
+  #card_img {
+    float: right;
+    display: block;
+  }
+}
+
+#card_img img {
+  border: 5px solid black;
+  border-radius: 20px;
+}
+
+#deck_info{
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-top: 25px;
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  align-content: none;
+  align-items: center;
+}
+
+.pull-left {
+  float: left;
+}
+
+.card_list{
+  display: none;
+  float: left;
+}
+
+#deck_info .card_list ul{
   list-style-type: none;
+  display: block;
 }
 
-.cards  li {
-  /* Text */
-  font-weight: bold;
+.card_list a{
+  text-decoration: none;
+  color: ghostwhite;
 }
 
-.card_image {
-  /* Location */
-  float: right;
-}
+#deck_format{
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-top: 25px;
+  padding: 10px 50px;
+  justify-content: space-between;
+  display: flex;
+  box-sizing: border-box;
+  align-content: center;
+  align-items: center;
+} 

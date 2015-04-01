@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+<!--
+File: card_update.php
+91.462 Project: Mastering Magic
+Michael Mammosser, Computer Science Major @ UMass Lowell
+Contact: michael_mammosser@student.uml.edu
+Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
+Updated on March 24, 2015.
+
+A simple php script to update `mtg_cards` database with data from a csv.
+-->
+        <title>MTG CARDS Update</title>     
+    </head>
+</html>
+<p>Starting table update.</p>
+<p>Connected to MySQL, using database <b>mmammoss</b>.</p>
+<p>Dropped table MTG_CARDS.</p>
+<p>Created table MTG_CARDS.</p>
+<p>Updated table MTG_CARDS with 15231 cards.</p>

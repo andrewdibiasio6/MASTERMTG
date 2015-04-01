@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+<!--
+File: winning_update.php
+91.462 Project: Mastering Magic
+Michael Mammosser, Computer Science Major @ UMass Lowell
+Contact: michael_mammosser@student.uml.edu
+Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
+Updated on March 24, 2015.
+
+A simple php script to update `mtg_decks` database with data from a csv.
+-->
+        <title>Winning Update</title>
+    </head>
+</html>
+<p>Starting table update.</p>
+<p>Connected to MySQL, using database <b>mmammoss</b>.</p>
+<p>Created table MTG_DECK.</p>
+<p>Updated table MTG_DECK with 1977 cards.</p>

@@ -34,16 +34,16 @@ decks = parse.findAll('h4')
 for i in decks:
     count_list = []
     card_list = []
-    
+
     # Use regex to clean html.
     deck = detag_re.sub('', str(i))
     deck = html_re.sub('', deck).replace(',', '')
     division_str = deck.replace(' ', '_').lower()
     print division_str
-    
+
     # Try to parse page, if error escape.
     try:
-        
+
         # Find the deck container.
         div = parse.findAll('div', {'id': division_str})
         div = div[0].findAll('div', {'class': 'sorted-by-overview-container \
@@ -63,7 +63,7 @@ sortedContainer'})
         for j in card_names:
             card_name = detag_re.sub('', str(j))
             card_name = card_name.encode('ascii', 'xmlcharrefreplace')
-            card_name = card_name.replace('&eacute;','e')
+            card_name = card_name.replace('&eacute;', 'e')
             card_list.append(card_name)
 
         # Append deck and card info to main list.

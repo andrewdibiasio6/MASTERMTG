@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <meta charset="UTF-8">
+<!--
+File: deck_map_update.php
+91.462 Project: Mastering Magic
+Michael Mammosser, Computer Science Major @ UMass Lowell
+Contact: michael_mammosser@student.uml.edu
+Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
+Updated on March 24, 2015.
+
+A simple php script to update `mtg_deck_map` database with data from a csv.
+-->
+        <title>MTG_DECK_MAP Update</title>
+    </head>
+    <body>
+
+<p>Dropped table MTG_DECK_MAP.</p>
+<p>Created table MTG_DECK.</p>
+<p>Updated table MTG_DECK_MAP with 86 decks.</p>
+
+    </body>
+</html>

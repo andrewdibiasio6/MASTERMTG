@@ -8,14 +8,12 @@ File: winning_update.php
 Michael Mammosser, Computer Science Major @ UMass Lowell
 Contact: michael_mammosser@student.uml.edu
 Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
-Updated on February 26, 2015.
+Updated on March 24, 2015.
 
 A simple php script to update `mtg_decks` database with data from a csv.
 -->
-        <title>MTG_DECK Update</title>
+        <title>Winning Update</title>
     </head>
-    <body>
-    </body>
 </html>
 <?php
     echo "<p>Starting table update.</p>\n" ;
@@ -51,12 +49,13 @@ A simple php script to update `mtg_decks` database with data from a csv.
     /*
      * Remove `mtg_deck` if it exists.
      */
+   /*  
     $sql = "DROP TABLE IF EXISTS `mtg_deck`;" ;
     $result = $db->query( $sql ) ;
     if (!$result) {
         die("<p>Error dropping table: " . $db->error . "</p>\n") ;
     }
-    echo "<p>Dropped table MTG_DECK.</p>\n" ;
+    echo "<p>Dropped table MTG_DECK.</p>\n" ; */
     
     /*
      * Create `mtg_deck` if it does not exist.
@@ -74,12 +73,12 @@ A simple php script to update `mtg_decks` database with data from a csv.
      * Then insert the row into `mtg_deck`.
      */
 
-    $file = fopen('/usr/cs/undergrad/2016/mmammoss/public_html/mtg_test/data/winning.csv', 'r') ;
+    $file = fopen('/usr/cs/undergrad/2016/mmammoss/public_html/beta/backend/data/winning.csv', 'r') ;
     while (($line = fgetcsv($file)) !== FALSE) {
         for ($i = 0; $i < 3; $i++) {
             $line[$i] = str_replace("'", "\'", $line[$i]) ;
         }
-    $sql = "INSERT INTO `mtg_deck` (`deck`, `card`, `count`) VALUES ('" . $line[0] . "', '" . $line[1]. "', '" . $line[2]. "');" ;
+    $sql = "INSERT INTO `mtg_deck` (`deck`, `card`, `count`) VALUES ('" . $line[0] . "', '" . $line[1]. "', '" . $line[2]. "') ON DUPLICATE KEY UPDATE count = '" . $line[2]. "';" ;
     $result = $db->query( $sql ) ;
     }
     fclose($file) ;

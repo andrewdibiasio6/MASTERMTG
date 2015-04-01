@@ -8,7 +8,7 @@ File: deck_map_update.php
 Michael Mammosser, Computer Science Major @ UMass Lowell
 Contact: michael_mammosser@student.uml.edu
 Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
-Updated on February 26, 2015.
+Updated on March 24, 2015.
 
 A simple php script to update `mtg_deck_map` database with data from a csv.
 -->
@@ -142,7 +142,7 @@ A simple php script to update `mtg_deck_map` database with data from a csv.
         die( '<p>There was an error running MTG_DECK_MAP row count query [' . $db->error . ']</p>\n' ) ;
     }
     $count = $result->fetch_assoc() ;
-    echo "<p>Updated table MTG_DECK_MAP with " . $count['count'] ." cards.</p>\n" ;
+    echo "<p>Updated table MTG_DECK_MAP with " . $count['count'] ." decks.</p>\n" ;
 ?>
 
     </body>

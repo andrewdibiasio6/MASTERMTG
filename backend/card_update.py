@@ -25,6 +25,7 @@ from unidecode import unidecode
 # Path(s)
 WORKING_PATH = os.path.dirname(os.path.abspath(__file__))
 
+
 def process_json():
     """
     A function that opens and saves json from mtgjson.com. Then
@@ -33,7 +34,7 @@ def process_json():
         A python dictionary containing magic cards.
     """
     mtg_cards = urllib.URLopener()
-    mtg_cards.retrieve('http://mtgjson.com/json/AllCards-x.json',
+    mtg_cards.retrieve('http://mtgjson.com/json/AllSets-x.json',
                        os.path.join(WORKING_PATH, 'data', 'cards.json'))
 
     with open(os.path.join(WORKING_PATH, 'data', 'cards.json'), 'r+')\
@@ -82,72 +83,83 @@ def main():
     # Retrieve cards as a python dictionary.
     card_dict = process_json()
 
-    # Create a list containing the processed card information.
-    card_database = []    
-    card_map = []
+    # Create a dictionary containing the processed card information.
+    card_database = {}
     for i in card_dict:
-        card = []
-        temp_dict = {}
-        card.append(card_dict[i]['name'].encode('ascii', 'xmlcharrefreplace'))
-        temp_dict['name'] = unidecode(card_dict[i]['name'])
-        temp_dict['html'] = card_dict[i]['name'].encode('ascii', 'xmlcharrefreplace')
-        card_map.append(temp_dict)
-        try:
-            color_str = ''
-            for j in card_dict[i]['colors']:
-                color_str += j + ', '
-            card.append(color_str[:-2])
-        except:
-            card.append('Colorless')
-        card.append(string_encode(card_dict[i]['type']))
-        try:
-            card.append(string_encode(card_dict[i]['manaCost']))
-        except:
-            card.append('')
-        try:
-            card.append(string_encode(card_dict[i]['text']))
-        except:
-            card.append('')
-        try:
-            card.append(card_dict[i]['power'])
-        except:
-            card.append('')
-
-        try:
-            card.append(card_dict[i]['toughness'])
-        except:
-            card.append('')
-
-        for j in ('Modern', 'Standard', 'Legacy', 'Vintage'):
+        for j in card_dict[i]['cards']:
+            card_name = j['name'].encode('ascii', 'xmlcharrefreplace')
+            card = [card_name]
+            card.append(unidecode(j['name']).lower())
+            card.append(j['name'])
             try:
-                if card_dict[i]['legalities'][j] == 'Legal':
-                    card.append('1')
-                else:
-                    card.append('0')
+                color_str = ''
+                for k in j['colors']:
+                    color_str += k + ', '
+                card.append(color_str[:-2])
             except:
-                card.append('0')
-        try:
-            image_name = ('http://mtgimage.com/card/' +
-                          card_dict[i]['imageName'] + '.jpg')
-            card.append(image_name)
-        except:
-            card.append('')
+                card.append('Colorless')
+            card.append(string_encode(j['type']))
+            card.append(string_encode(j['rarity']))
+            try:
+                card.append(string_encode(j['manaCost']))
+            except:
+                card.append('')
+            try:
+                card.append(string_encode(j['text']))
+            except:
+                card.append('')
+            try:
+                card.append(j['power'])
+            except:
+                card.append('')
+            try:
+                card.append(j['toughness'])
+            except:
+                card.append('')
 
-        card_database.append(card)
+            for k in ('Modern', 'Standard', 'Legacy', 'Vintage'):
+                try:
+                    if j['legalities'][k] == 'Legal':
+                        card.append('1')
+                    else:
+                        card.append('0')
+                except:
+                    card.append('0')
+            try:
+                image_name = ('http://gatherer.wizards.com/Handlers/Image.\
+ashx?multiverseid=' + str(j['multiverseid']) + '&type=card')
+                card.append(image_name)
+            except:
+                card.append('')
+
+            card_database[card_name] = card
+
+    # Swap dictionary for list to order it by color.
+    cards = []
+    for i in card_database:
+
+        cards.append(card_database[i])
 
     # Sort the card information based on color and then name.
-    card_database = sorted(card_database, key=itemgetter(1, 0))
+    cards = sorted(cards, key=itemgetter(3, 0))
+
+    #Create image map.
+    card_image_map = []
+    for i in cards:
+        card_image_map.append([i[1], i[14]])
+    card_image_map = sorted(card_image_map, key=itemgetter(0))
+
+    with open(os.path.join(WORKING_PATH, 'data', 'image_map.json'), 'w+')\
+            as outfile:
+        json.dump(card_image_map, outfile)
 
     # Write the tuple of tuples to database.csv
-    with open(os.path.join(WORKING_PATH, 'data', "database.csv"), 'wb+')\
+    with open(os.path.join(WORKING_PATH, 'data', "cards.csv"), 'wb+')\
             as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=',')
-        for i in card_database:
+        for i in cards:
             csv_writer.writerow(i)
 
-    with open(os.path.join(WORKING_PATH, 'data', "card_map.json"), 'wb+')\
-            as cm:
-        json.dump({'data': card_map}, cm)
 
 if __name__ == "__main__":
     main()

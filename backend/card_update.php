@@ -8,17 +8,12 @@ File: card_update.php
 Michael Mammosser, Computer Science Major @ UMass Lowell
 Contact: michael_mammosser@student.uml.edu
 Copyright (c) 2015 by Michael Mammosser.  All rights reserved.
-Updated on February 26, 2015.
+Updated on March 24, 2015.
 
 A simple php script to update `mtg_cards` database with data from a csv.
 -->
-        <title>MTG_CARDS Update</title>
-
-        <!-- AngularJS -->
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>        
+        <title>MTG CARDS Update</title>     
     </head>
-    <body>
-    </body>
 </html>
 <?php
     echo "<p>Starting table update.</p>\n" ;
@@ -64,7 +59,7 @@ A simple php script to update `mtg_cards` database with data from a csv.
     /*
      * Create `mtg_cards` if it does not exist.
      */
-    $sql = "CREATE TABLE IF NOT EXISTS `mtg_cards` ( `name` varchar(150) NOT NULL, `colors` varchar(50) NOT NULL, `type` varchar(50) DEFAULT NULL, `mana_cost` varchar(50) DEFAULT NULL, `text` varchar(1000) DEFAULT NULL, `power` varchar(10) DEFAULT NULL, `toughness` varchar(10) DEFAULT NULL, `modern` int(11) DEFAULT NULL, `standard` int(11) DEFAULT NULL, `legacy` int(11) DEFAULT NULL, `vintage` int(11) DEFAULT NULL, `image` varchar(255) DEFAULT NULL, PRIMARY KEY (`colors`, `name`) );";
+    $sql = "CREATE TABLE IF NOT EXISTS `mtg_cards` ( `name` varchar(150) NOT NULL, `name_simple` varchar(150) NOT NULL, `name_unicode` varchar(150) NOT NULL, `colors` varchar(50) NOT NULL, `type` varchar(50) DEFAULT NULL, `rarity` varchar(50) DEFAULT NULL, `mana_cost` varchar(50) DEFAULT NULL, `text` varchar(1000) DEFAULT NULL, `power` varchar(10) DEFAULT NULL, `toughness` varchar(10) DEFAULT NULL, `modern` int(11) DEFAULT NULL, `standard` int(11) DEFAULT NULL, `legacy` int(11) DEFAULT NULL, `vintage` int(11) DEFAULT NULL, `image` varchar(255) DEFAULT NULL, PRIMARY KEY (`colors`, `name`) );";
     $result = $db->query( $sql ) ;
     if (!$result) {
         die("<p>Error creating table: " . $db->error . "</p>\n") ;
@@ -76,13 +71,12 @@ A simple php script to update `mtg_cards` database with data from a csv.
      * Remove "'" chracters from the data values.
      * Then insert the row into `mtg_cards`.
      */
-    $file = fopen('/usr/cs/undergrad/2016/mmammoss/public_html/mtg_test/data/database.csv', 'r') ;
+    $file = fopen('/usr/cs/undergrad/2016/mmammoss/public_html/beta/backend/data/cards.csv', 'r') ;
     while (($line = fgetcsv($file)) !== FALSE) {
-		print_r($line) ;
-        for ($i = 0; $i < 12; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $line[$i] = str_replace("'", "\'", $line[$i]) ;
         }
-        $sql = "INSERT INTO `mtg_cards` (`name`, `colors`, `type`, `mana_cost`, `text`, `power`, `toughness`, `modern`, `standard`, `legacy`, `vintage`, `image`) VALUES ('" . $line[0] . "', '" . $line[1]. "', '" . $line[2]. "', '" . $line[3] . "', '" . $line[4] . "', '" . $line[5] . "', '" . $line[6] . "', '" . $line[7] . "', '" . $line[8] . "', '" . $line[9] . "', '" . $line[10] . "', '" . $line[11] . "');" ;
+        $sql = "INSERT INTO `mtg_cards` (`name`, `name_simple`, `name_unicode`, `colors`, `type`, `rarity`, `mana_cost`, `text`, `power`, `toughness`, `modern`, `standard`, `legacy`, `vintage`, `image`) VALUES ('" . $line[0] . "', '" . $line[1]. "', '" . $line[2]. "', '" . $line[3] . "', '" . $line[4] . "', '" . $line[5] . "', '" . $line[6] . "', '" . $line[7] . "', '" . $line[8] . "', '" . $line[9] . "', '" . $line[10] . "', '" . $line[11] . "', '" . $line[12] . "', '" . $line[13] . "', '" . $line[14] . "');" ;
         $result = $db->query( $sql ) ;
         if (!$result) {
             die("<p>Error inserting into table: " . $db->error . "</p>\n") ;
